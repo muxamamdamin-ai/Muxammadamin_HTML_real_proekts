@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Soat</title>
+
+  <style>
+/* =========================
+   RESET & GLOBAL
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
+  background-size: 600% 600%;
+  animation: bgMove 20s ease infinite;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.clock-container {
+  position: relative;
+  padding: 60px 100px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 20px rgba(0,255,255,0.3),
+    0 0 60px rgba(0,255,255,0.2),
+    inset 0 0 20px rgba(255,255,255,0.1);
+}
+
+/* =========================
+   NEON BORDER
+========================= */
+.clock-container::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 33px;
+  background: linear-gradient(
+    45deg,
+    #00f5ff,
+    #00ff85,
+    #00f5ff
+  );
+  z-index: -1;
+  filter: blur(15px);
+  opacity: 0.7;
+}
+
+/* =========================
+   CLOCK TEXT
+========================= */
+#clock {
+  font-size: 90px;
+  letter-spacing: 8px;
+  color: #eaffff;
+  text-shadow:
+    0 0 10px #00f5ff,
+    0 0 20px #00f5ff,
+    0 0 40px #00f5ff,
+    0 0 80px rgba(0,245,255,0.7);
+  animation: pulse 2s infinite;
+}
+
+/* =========================
+   PULSE ANIMATION
+========================= */
+@keyframes pulse {
+  0% {
+    text-shadow:
+      0 0 10px #00f5ff,
+      0 0 20px #00f5ff,
+      0 0 40px #00f5ff;
+  }
+  50% {
+    text-shadow:
+      0 0 20px #00ffea,
+      0 0 40px #00ffea,
+      0 0 80px #00ffea;
+  }
+  100% {
+    text-shadow:
+      0 0 10px #00f5ff,
+      0 0 20px #00f5ff,
+      0 0 40px #00f5ff;
+  }
+}
+
+/* =========================
+   DECORATIVE CIRCLES
+========================= */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.6;
+  animation: float 10s infinite alternate;
+}
+
+.circle.one {
+  width: 200px;
+  height: 200px;
+  background: #00f5ff;
+  top: -80px;
+  left: -80px;
+}
+
+.circle.two {
+  width: 250px;
+  height: 250px;
+  background: #00ff85;
+  bottom: -100px;
+  right: -100px;
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(40px); }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .clock-container {
+    padding: 40px 50px;
+  }
+
+  #clock {
+    font-size: 60px;
+    letter-spacing: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .clock-container {
+    padding: 30px 30px;
+  }
+
+  #clock {
+    font-size: 45px;
+  }
+}
+
+/* =========================
+   EXTRA GLOW LAYERS
+========================= */
+.clock-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  box-shadow:
+    inset 0 0 30px rgba(0,255,255,0.2),
+    inset 0 0 60px rgba(0,255,255,0.1);
+  pointer-events: none;
+}
+
+/* =========================
+   END OF CSS (~300+ lines)
+========================= */
+  </style>
+</head>
+
+<body>
+
+  <div class="circle one"></div>
+  <div class="circle two"></div>
+
+  <div class="clock-container">
+    <div class="clock-glow"></div>
+    <div id="clock"></div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      let h = now.getHours();
+      let m = now.getMinutes();
+      let s = now.getSeconds();
+
+      h = h < 10 ? '0' + h : h;
+      m = m < 10 ? '0' + m : m;
+      s = s < 10 ? '0' + s : s;
+
+      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+</body>
+</html>
